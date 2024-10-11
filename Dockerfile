@@ -2,10 +2,11 @@
 FROM python:3.12-slim
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR / Main
+
 
 # Copy the current directory contents into the container at /app
-COPY . /app
+COPY . /Main
 
 # Install any necessary dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -14,4 +15,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Command to run your application
-CMD ["python", "app.py"]
+CMD ["python", "App.py"]
