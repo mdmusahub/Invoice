@@ -1,44 +1,17 @@
-# Step 1: Specify the base image (Debian-based)
-FROM python:3.12-slim-buster
+# Base image
+FROM python:3.12-slim
 
-# Step 2: Set environment variable to avoid interactive prompts
-ENV DEBIAN_FRONTEND=noninteractive
+# Set the working directory inside the container
+WORKDIR /app
 
-# Step 3: Install required dependencies and MariaDB libraries
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libmariadb-dev \
-    default-libmysqlclient-dev \
-    gcc \
-    python3-dev \
-    python3-venv \
-    && rm -rf /var/lib/apt/lists/*
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Step 4: Create and activate a virtual environment
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+# Install any necessary dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Step 5: Set the working directory inside the container
-WORKDIR /Main/
-
-# Step 6: Copy the current directory contents to the container
-COPY . /Main/
-
-# Step 7: Install Python dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-# Step 8: Expose the application port
+# Expose the port your application runs on
 EXPOSE 8000
 
-# Step 9: Define the command to run your app (update this according to your app)
+# Command to run your application
 CMD ["python", "app.py"]
-
-
-
-# Build the Docker image
-docker build -t your-image-name .
-
-# Run the Docker container
-docker run -p 8000:8000 your-image-name
-
