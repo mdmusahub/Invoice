@@ -33,3 +33,12 @@ EXPOSE 8000
 
 # Step 9: Define the command to run your app (update this according to your app)
 CMD ["python", "app.py"]
+
+
+
+# Build the Docker image
+docker build -t your-image-name .
+
+# Run the Docker container
+docker run -p 8000:8000 your-image-name
+
